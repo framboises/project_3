@@ -3,9 +3,11 @@
 -----------
 
 ## Description
+
 Imaginer un labyrinthe 2D dans lequel MacGyver aurait été enfermé. La sortie est surveillée par un garde du corps dont la coiffure ferait pâlir Tina Turner. Pour le distraire, il vous faut réunir les éléments suivants (dispersés dans le labyrinthe) : une aiguille, un petit tube en plastique et de l'éther. Ils permettront à MacGyver de créer une seringue et d'endormir le garde pour s'échapper du labyrinthe.
 
 ### Fonctionnalités
+
 1. Il n'y a qu'un seul niveau.
 2. La structure (départ, emplacement des murs, arrivée), devra être enregistrée dans un fichier pour la modifier facilement au besoin.
 3. MacGyver sera contrôlé par les touches directionnelles du clavier.
