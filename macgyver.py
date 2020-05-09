@@ -91,6 +91,7 @@ def main():
             # Map first generation
             generate = Map(select_level)
             generate.parse_file()
+            generate.insert_tool()
             generate.display(window)
 
             # Mac Gyver first generation

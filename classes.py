@@ -25,8 +25,8 @@ class Map:
         self.wall = pygame.image.load(IMAGE_WALL).convert()
         self.background = pygame.image.load(IMAGE_BG).convert()
         self.exit = pygame.image.load(IMAGE_EXIT).convert_alpha()
-        # random.shuffle(IMAGE_TOOL)
-        self.tool = IMAGE_TOOL
+        self.tool = list(IMAGE_TOOL)
+        self.len_tool = len(IMAGE_TOOL)
 
     def parse_file(self):
         """ Generating map from a file. It's a list wich contains other lists."""
@@ -42,18 +42,23 @@ class Map:
 
                 map_structure.append(line_structure)
 
-            # Generate random position for tool and insertion in the map structure
-            i = 0
-            while i != len(IMAGE_TOOL):
-                random_line = random.choice(map_structure)
-                random_line_position = map_structure.index(random_line)
-                random_sprite = random.randint(0, len(random_line)-1)
-                if random_line[random_sprite] == '0':
-                    random_line[random_sprite] = 't'
-                    map_structure[random_line_position] = random_line
-                    i += 1
-
             self.structure = map_structure
+
+    def insert_tool(self):
+        """ Generate random position for tool and insertion in the map structure"""
+
+        random.shuffle(self.tool)
+        tool_insert = list(self.tool)
+        i = 0
+        while i != len(self.tool):
+            random_line = random.choice(self.structure)
+            random_line_position = self.structure.index(random_line)
+            random_sprite = random.randint(0, len(random_line)-1)
+            if random_line[random_sprite] == '0':
+                random_line[random_sprite] = [tool_insert.pop(0),
+                                              random_line_position, random_sprite]
+                self.structure[random_line_position] = random_line
+                i += 1
 
     # @property
     # def tool(self):
@@ -63,7 +68,6 @@ class Map:
         """ Display map on pygame module
         Parse structure map and display the correct sprite"""
 
-        list_tool = self.tool
         nb_tool = 0
         line_position = 0
         for ligne in self.structure:
@@ -82,11 +86,10 @@ class Map:
                     # e = exit
                     fenetre.blit(self.exit, (x_axis_sprite, y_axis_sprite))
 
-                elif sprite == 't' and nb_tool < len(list_tool):
+                elif isinstance(sprite, list) and nb_tool < len(self.tool):
                     # t = tool
-                    pic_random = list_tool[nb_tool]
                     nb_tool += 1
-                    tool = pygame.image.load(pic_random).convert_alpha()
+                    tool = pygame.image.load(sprite[0]).convert_alpha()
                     fenetre.blit(tool, (x_axis_sprite, y_axis_sprite))
                     # import pdb; pdb.set_trace()
                 sprite_position += 1
@@ -126,7 +129,7 @@ class Character:
             # border check
             if self.sprite_x < (NB_SPRITE_WIDTH - 1):
                 if self.level.structure[self.sprite_y][self.sprite_x+1] != 'w':
-                    if self.level.structure[self.sprite_y][self.sprite_x+1] == 't':
+                    if isinstance(self.level.structure[self.sprite_y][self.sprite_x+1], list):
                         self.level.structure[self.sprite_y][self.sprite_x+1] = '0'
                         self.backpack += 1
                     self.sprite_x += 1
@@ -136,7 +139,7 @@ class Character:
         if direction == 'left':
             if self.sprite_x > 0:
                 if self.level.structure[self.sprite_y][self.sprite_x-1] != 'w':
-                    if self.level.structure[self.sprite_y][self.sprite_x-1] == 't':
+                    if isinstance(self.level.structure[self.sprite_y][self.sprite_x-1], list):
                         self.level.structure[self.sprite_y][self.sprite_x-1] = '0'
                         self.backpack += 1
                     self.sprite_x -= 1
@@ -146,7 +149,7 @@ class Character:
         if direction == 'up':
             if self.sprite_y > 0:
                 if self.level.structure[self.sprite_y-1][self.sprite_x] != 'w':
-                    if self.level.structure[self.sprite_y-1][self.sprite_x] == 't':
+                    if isinstance(self.level.structure[self.sprite_y-1][self.sprite_x], list):
                         self.level.structure[self.sprite_y-1][self.sprite_x] = '0'
                         self.backpack += 1
                     self.sprite_y -= 1
@@ -156,7 +159,7 @@ class Character:
         if direction == 'down':
             if self.sprite_y < (NB_SPRITE_HEIGHT - 1):
                 if self.level.structure[self.sprite_y+1][self.sprite_x] != 'w':
-                    if self.level.structure[self.sprite_y+1][self.sprite_x] == 't':
+                    if isinstance(self.level.structure[self.sprite_y+1][self.sprite_x], list):
                         self.level.structure[self.sprite_y+1][self.sprite_x] = '0'
                         self.backpack += 1
                     self.sprite_y += 1
