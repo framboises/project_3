@@ -14,3 +14,5 @@ IMAGE_FAIL = "images/fail.png"
 NB_SPRITE_WIDTH = 15
 NB_SPRITE_HEIGHT = 20
 SIZE_SPRITE = 40
+LEVEL_DEFAULT = "level_1"
+TITRE_FENETRE = "Mac Gyver needs you"

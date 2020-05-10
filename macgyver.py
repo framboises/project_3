@@ -13,8 +13,11 @@ Files : macgyver.py, classes.py, level_1, + images
 import pygame
 from pygame.locals import *
 
-from classes import *
-from settings import *
+from classes.map import *
+from classes.character import *
+from classes.settings import *
+from classes.main_game import *
+from classes.home_game import *
 
 pygame.init()
 
@@ -23,43 +26,22 @@ def main():
 
     window = pygame.display.set_mode((NB_SPRITE_WIDTH * SIZE_SPRITE,
                                       NB_SPRITE_HEIGHT * SIZE_SPRITE))
-    titre_fenetre = "Mac Gyver needs you"
-    pygame.display.set_caption(titre_fenetre)
-    play_game_main = True
+    pygame.display.set_caption(TITRE_FENETRE)
+    launch_game = True
     game_status = "try"
 
-    while play_game_main:
-        # Home loop display with 3 screen dependinf of the game status
-
-        home = pygame.image.load("images/home.jpg").convert()
-        window.blit(home, (0, 0))
-
-        if game_status == "success":
-            # display succes menu
-            success = pygame.image.load("images/success.png").convert_alpha()
-            window.blit(success, (38, 200))
-
-        elif game_status == "fail":
-            # display fail menu
-            fail = pygame.image.load("images/fail.png").convert_alpha()
-            window.blit(fail, (38, 200))
-            macgyver = pygame.image.load("images/MacGyver_dead.png").convert_alpha()
-            window.blit(macgyver, (87, 134))
-            villain = pygame.image.load("images/villain_happy.png").convert_alpha()
-            window.blit(villain, (476, 578))
-
-        elif game_status == "try":
-            # display home menu
-            macgyver = pygame.image.load("images/MacGyver.png").convert_alpha()
-            window.blit(macgyver, (87, 134))
-            villain = pygame.image.load("images/guard.png").convert_alpha()
-            window.blit(villain, (476, 524))
-
-        pygame.display.flip()
+    while launch_game:
+        # Home loop display with 3 screen depending of the game status
 
         # Var set to true for the loop
         game_start = True
         homepage = True
+        home = pygame.image.load("images/home.jpg").convert()
+        window.blit(home, (0, 0))
+        display = Display(window)
+        display.game_status_screen(game_status)
+
+        pygame.display.flip()
 
         while homepage:
         # HOME LOOP
@@ -73,13 +55,14 @@ def main():
                 if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
                     homepage = 0
                     game_start = 0
-                    play_game_main = 0
+                    launch_game = 0
                     game_status = "try"
                     select_level = 0
 
                 elif event.type == KEYDOWN:
                     # Select level 1 to launch the game and
                     # set var homepage to false in order to quit the loop
+                    # We can implement more level easily
                     if event.key == K_F1:
                         homepage = 0
                         select_level = "level_1"
@@ -91,7 +74,8 @@ def main():
             # Map first generation
             generate = Map(select_level)
             generate.parse_file()
-            generate.display(window)
+            generate.insert_tool()
+            display.map_picture(generate.structure)
 
             # Mac Gyver first generation
             mac_gyver = Character("images/MacGyver.png", generate)
@@ -108,7 +92,7 @@ def main():
                 # if quit we stop all
                 if event.type == QUIT:
                     game_start = 0
-                    play_game_main = 0
+                    launch_game = 0
 
                 elif event.type == KEYDOWN:
                     # Escape press => comeback to menu
@@ -126,8 +110,8 @@ def main():
                         mac_gyver.movement('down')
 
             # Display moves
-            window.blit(generate.background, (0, 0))
-            generate.display(window)
+            window.blit(display.background, (0, 0))
+            display.map_picture(generate.structure)
             window.blit(mac_gyver.picture, (mac_gyver.pixel_x, mac_gyver.pixel_y))
             pygame.display.flip()
 
