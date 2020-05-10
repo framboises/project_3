@@ -135,5 +135,6 @@ p3.sublime-workspace
 # Mac os file
 .DS_Store
 
-# Telechargement
+# Telechargement - test
 ressources/
+test-affichage.py

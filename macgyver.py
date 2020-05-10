@@ -13,8 +13,11 @@ Files : macgyver.py, classes.py, level_1, + images
 import pygame
 from pygame.locals import *
 
-from classes import *
-from settings import *
+from classes.map import *
+from classes.character import *
+from classes.settings import *
+from classes.main_game import *
+from classes.home_game import *
 
 pygame.init()
 
@@ -23,12 +26,13 @@ def main():
 
     window = pygame.display.set_mode((NB_SPRITE_WIDTH * SIZE_SPRITE,
                                       NB_SPRITE_HEIGHT * SIZE_SPRITE))
-    titre_fenetre = "Mac Gyver needs you"
-    pygame.display.set_caption(titre_fenetre)
-    play_game_main = True
+    pygame.display.set_caption(TITRE_FENETRE)
+    launch_game = True
     game_status = "try"
+    # counter for logging bug
+    # loop_insert_tool = 0
 
-    while play_game_main:
+    while launch_game:
         # Home loop display with 3 screen dependinf of the game status
 
         home = pygame.image.load("images/home.jpg").convert()
@@ -73,7 +77,7 @@ def main():
                 if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
                     homepage = 0
                     game_start = 0
-                    play_game_main = 0
+                    launch_game = 0
                     game_status = "try"
                     select_level = 0
 
@@ -92,7 +96,11 @@ def main():
             generate = Map(select_level)
             generate.parse_file()
             generate.insert_tool()
-            generate.display(window)
+            # log warning for insert tool duplicate
+            # loop_insert_tool += 1
+            # logging.warning(loop_insert_tool)
+            display = Display(window, generate.structure)
+            display.map_picture()
 
             # Mac Gyver first generation
             mac_gyver = Character("images/MacGyver.png", generate)
@@ -109,7 +117,7 @@ def main():
                 # if quit we stop all
                 if event.type == QUIT:
                     game_start = 0
-                    play_game_main = 0
+                    launch_game = 0
 
                 elif event.type == KEYDOWN:
                     # Escape press => comeback to menu
@@ -127,8 +135,8 @@ def main():
                         mac_gyver.movement('down')
 
             # Display moves
-            window.blit(generate.background, (0, 0))
-            generate.display(window)
+            window.blit(display.background, (0, 0))
+            display.map_picture()
             window.blit(mac_gyver.picture, (mac_gyver.pixel_x, mac_gyver.pixel_y))
             pygame.display.flip()
 
