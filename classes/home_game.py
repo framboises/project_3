@@ -16,17 +16,19 @@ from classes.settings import *
 class Display:
     """docstring for ClassName"""
 
-    def __init__(self, window, structure):
+    def __init__(self, window):
         self.wall = pygame.image.load(IMAGE_WALL).convert()
         self.background = pygame.image.load(IMAGE_BG).convert()
         self.exit = pygame.image.load(IMAGE_EXIT).convert_alpha()
         self.window = window
-        self.map = structure
+        self.map = []
+        self.status = "try"
 
-    def map_picture(self):
+    def map_picture(self, structure):
         """ Display map on pygame module
         Parse structure map and display the correct sprite"""
 
+        self.map = structure
         nb_tool_counter = 0
         line_position = 0
         for ligne in self.map:
@@ -53,3 +55,32 @@ class Display:
                     # import pdb; pdb.set_trace()
                 sprite_position += 1
             line_position += 1
+
+    def game_status_screen(self, status):
+        """ Display the correct screen based on the game status
+        success if the player win, fail if he loose or try at
+        the beginning or if he restart """
+
+        self.status = status
+        if self.status == "success":
+            # display succes menu
+            success = pygame.image.load("images/success.png").convert_alpha()
+            self.window.blit(success, (38, 200))
+
+        elif self.status == "fail":
+            # display fail menu
+            fail = pygame.image.load("images/fail.png").convert_alpha()
+            self.window.blit(fail, (38, 200))
+            macgyver = pygame.image.load("images/MacGyver_dead.png").convert_alpha()
+            self.window.blit(macgyver, (87, 134))
+            villain = pygame.image.load("images/villain_happy.png").convert_alpha()
+            self.window.blit(villain, (476, 578))
+
+        elif self.status == "try":
+            # display home menu
+            macgyver = pygame.image.load("images/MacGyver.png").convert_alpha()
+            self.window.blit(macgyver, (87, 134))
+            villain = pygame.image.load("images/guard.png").convert_alpha()
+            self.window.blit(villain, (476, 524))
+
+

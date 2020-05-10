@@ -29,41 +29,19 @@ def main():
     pygame.display.set_caption(TITRE_FENETRE)
     launch_game = True
     game_status = "try"
-    # counter for logging bug
-    # loop_insert_tool = 0
 
     while launch_game:
-        # Home loop display with 3 screen dependinf of the game status
-
-        home = pygame.image.load("images/home.jpg").convert()
-        window.blit(home, (0, 0))
-
-        if game_status == "success":
-            # display succes menu
-            success = pygame.image.load("images/success.png").convert_alpha()
-            window.blit(success, (38, 200))
-
-        elif game_status == "fail":
-            # display fail menu
-            fail = pygame.image.load("images/fail.png").convert_alpha()
-            window.blit(fail, (38, 200))
-            macgyver = pygame.image.load("images/MacGyver_dead.png").convert_alpha()
-            window.blit(macgyver, (87, 134))
-            villain = pygame.image.load("images/villain_happy.png").convert_alpha()
-            window.blit(villain, (476, 578))
-
-        elif game_status == "try":
-            # display home menu
-            macgyver = pygame.image.load("images/MacGyver.png").convert_alpha()
-            window.blit(macgyver, (87, 134))
-            villain = pygame.image.load("images/guard.png").convert_alpha()
-            window.blit(villain, (476, 524))
-
-        pygame.display.flip()
+        # Home loop display with 3 screen depending of the game status
 
         # Var set to true for the loop
         game_start = True
         homepage = True
+        home = pygame.image.load("images/home.jpg").convert()
+        window.blit(home, (0, 0))
+        display = Display(window)
+        display.game_status_screen(game_status)
+
+        pygame.display.flip()
 
         while homepage:
         # HOME LOOP
@@ -84,6 +62,7 @@ def main():
                 elif event.type == KEYDOWN:
                     # Select level 1 to launch the game and
                     # set var homepage to false in order to quit the loop
+                    # We can implement more level easily
                     if event.key == K_F1:
                         homepage = 0
                         select_level = "level_1"
@@ -96,11 +75,7 @@ def main():
             generate = Map(select_level)
             generate.parse_file()
             generate.insert_tool()
-            # log warning for insert tool duplicate
-            # loop_insert_tool += 1
-            # logging.warning(loop_insert_tool)
-            display = Display(window, generate.structure)
-            display.map_picture()
+            display.map_picture(generate.structure)
 
             # Mac Gyver first generation
             mac_gyver = Character("images/MacGyver.png", generate)
@@ -136,7 +111,7 @@ def main():
 
             # Display moves
             window.blit(display.background, (0, 0))
-            display.map_picture()
+            display.map_picture(generate.structure)
             window.blit(mac_gyver.picture, (mac_gyver.pixel_x, mac_gyver.pixel_y))
             pygame.display.flip()
 

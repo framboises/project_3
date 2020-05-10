@@ -7,7 +7,6 @@ Class for generating the map and the movement
 """
 
 import random
-# import logging
 
 from classes.settings import *
 
@@ -18,7 +17,7 @@ class Map:
 
         self.fichier = fichier
         self.structure = []
-        self.tool = list(IMAGE_TOOL)
+        self.tool = IMAGE_TOOL
 
     def parse_file(self):
         """ Generating map from a file. It's a list wich contains other lists."""
@@ -39,19 +38,31 @@ class Map:
     def insert_tool(self):
         """ Generate random position for tool and insertion in the map structure"""
 
-        random.shuffle(self.tool)
-        tool_insert = list(self.tool)
-        i = 0
-        while i != len(self.tool):
-            random_line = random.choice(self.structure)
-            random_line_position = self.structure.index(random_line)
-            random_sprite = random.randint(0, len(random_line)-1)
-            if random_line[random_sprite] == '0':
-                random_line[random_sprite] = [tool_insert.pop(0),
-                                              random_line_position, random_sprite]
-                self.structure[random_line_position] = random_line
-                # log warning for insert tool duplicate
-                # logging.warning(self.structure)
-                i += 1
+        item_counter = 0
+        while item_counter != len(self.tool):
+            # Sometime, the loop below, wich insert the tool
+            # in map structure, insert 1 or 2 more tools than expected
+            # (len(self.tool) == 3) This loop check the number
+            # of item in the map structure et the necessary
+            # number before exit
 
-    # Insérer ici la gestion du plateau permettant de vérifier le mouvement de mac gyver
+            if item_counter > len(self.tool):
+                self.parse_file()
+            item_counter = 0
+            i = 0
+
+            while i != len(self.tool):
+                random_line = random.choice(self.structure)
+                random_line_position = self.structure.index(random_line)
+                random_sprite = random.randint(0, len(random_line)-1)
+                if random_line[random_sprite] == '0':
+                    random_line[random_sprite] = [self.tool[i],
+                                                  random_line_position, random_sprite]
+                    self.structure[random_line_position] = random_line
+                    i += 1
+
+            for line in self.structure:
+
+                for sprite in line:
+                    if isinstance(sprite, list):
+                        item_counter += 1
