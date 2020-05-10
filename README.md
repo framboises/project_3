@@ -3,7 +3,6 @@
 -----------
 
 ## Description
-<<<<<<< HEAD
 
 Imaginer un labyrinthe 2D dans lequel MacGyver aurait été enfermé. La sortie est surveillée par un garde du corps dont la coiffure ferait pâlir Tina Turner. Pour le distraire, il vous faut réunir les éléments suivants (dispersés dans le labyrinthe) : une aiguille, un petit tube en plastique et de l'éther. Ils permettront à MacGyver de créer une seringue et d'endormir le garde pour s'échapper du labyrinthe.
 
@@ -13,7 +12,7 @@ Imaginer un labyrinthe 2D dans lequel MacGyver aurait été enfermé. La sortie 
 Imaginer un labyrinthe 2D dans lequel MacGyver aurait été enfermé. La sortie est surveillée par un garde du corps dont la coiffure ferait pâlir Tina Turner. Pour le distraire, il vous faut réunir les éléments suivants (dispersés dans le labyrinthe) : une aiguille, un petit tube en plastique et de l'éther. Ils permettront à MacGyver de créer une seringue et d'endormir le garde pour s'échapper du labyrinthe.
 
 ### Fonctionnalités
->>>>>>> 805cc7d3c7bfa5ac0f5c87bc24f4170cab128358
+
 1. Il n'y a qu'un seul niveau.
 2. La structure (départ, emplacement des murs, arrivée), devra être enregistrée dans un fichier pour la modifier facilement au besoin.
 3. MacGyver sera contrôlé par les touches directionnelles du clavier.
@@ -23,6 +22,20 @@ Imaginer un labyrinthe 2D dans lequel MacGyver aurait été enfermé. La sortie 
 7. Le programme s'arrête uniquement si MacGyver a bien récupéré tous les objets et trouvé la sortie du labyrinthe.
 8. S'il n'a pas tous les objets et qu'il se présente devant le garde, il meurt (la vie est cruelle pour les héros).
 9. Le programme sera standalone, c'est-à-dire qu'il pourra être exécuté sur n'importe quel ordinateur.
+
+---------------
+
+## Release beta v 2.0 - 10/05/2020
+
+**Corrections des problèmes de la beta 1.0** :
+* New distribution for classes in package file
+* Fix all issue about tools and tools insertion in the maze
+* Reduction of the main function but we can do better
+
+**Reste à faire** :
+* Diminuer encore la fonction main
+* Rédiger la documentation technique
+* Deplacer le contrôle des murs et des collisions de la classe map à la classe character
 
 ---------------
 
@@ -41,3 +54,5 @@ Imaginer un labyrinthe 2D dans lequel MacGyver aurait été enfermé. La sortie 
 * Probleme sur les classes à répartir dans plusieurs fichiers
 * Probleme sur la récupération des outils, lorsqu'un outil est pris il peut s'inverser avec un autre outil présent dans le labyrinthe => *piste de travail sur l'insertion d'une liste*
 * Fonction main() trop importante nécessité de diviser la boucle de jeu en deux boucles : 1/ boucle ecran d'accueil et boucle labyrinthe
+
+
