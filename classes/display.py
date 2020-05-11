@@ -29,6 +29,7 @@ class Display:
         self.homepage = True
         self.homeimage = pygame.image.load(IMAGE_HOME).convert()
         self.select_level = 0
+        self.player = 0
 
     def map_picture(self, structure):
         """ Display map on pygame module
@@ -122,3 +123,29 @@ class Display:
                     self.status = "try"
                     self.select_level = "level_1"
 
+    def event_user_ingame(self, player):
+        """ Input user on keyboard for movement or leaving game """
+
+        self.player = player
+        for event in pygame.event.get():
+            # keyboard event management
+
+            # if quit we stop all
+            if event.type == QUIT:
+                self.game_start = 0
+                self.launchgame = 0
+
+            elif event.type == KEYDOWN:
+                # Escape press => comeback to menu
+                if event.key == K_ESCAPE:
+                    self.game_start = 0
+
+                # Move keyboard
+                elif event.key == K_RIGHT:
+                    self.player.movement('right')
+                elif event.key == K_LEFT:
+                    self.player.movement('left')
+                elif event.key == K_UP:
+                    self.player.movement('up')
+                elif event.key == K_DOWN:
+                    self.player.movement('down')

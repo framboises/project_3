@@ -65,28 +65,8 @@ def main():
             # FPS limitation
             pygame.time.Clock().tick(30)
 
-            for event in pygame.event.get():
-                # keyboard event management
-
-                # if quit we stop all
-                if event.type == QUIT:
-                    display.game_start = 0
-                    display.launchgame = 0
-
-                elif event.type == KEYDOWN:
-                    # Escape press => comeback to menu
-                    if event.key == K_ESCAPE:
-                        display.game_start = 0
-
-                    # Move keyboard
-                    elif event.key == K_RIGHT:
-                        mac_gyver.movement('right')
-                    elif event.key == K_LEFT:
-                        mac_gyver.movement('left')
-                    elif event.key == K_UP:
-                        mac_gyver.movement('up')
-                    elif event.key == K_DOWN:
-                        mac_gyver.movement('down')
+            # Input keyboard for the player MacGyver
+            display.event_user_ingame(mac_gyver)
 
             # Display moves
             window.blit(display.background, (0, 0))

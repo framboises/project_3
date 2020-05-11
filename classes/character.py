@@ -75,5 +75,3 @@ class Character:
                         self.backpack_counter += 1
                     self.sprite_y += 1
                     self.pixel_y = self.sprite_y * SIZE_SPRITE
-
-    # def input_user(self)
