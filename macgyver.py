@@ -42,7 +42,7 @@ def main():
             # FPS limitation
             pygame.time.Clock().tick(30)
 
-            # Interact with user to define the next step (exit or play)
+            # Interact with user to define the next step (exit or play(F1 if 1 level))
             display.event_user_homepage()
 
         # select level checking before loading
@@ -54,8 +54,10 @@ def main():
             generate.insert_tool()
             display.map_picture(generate.structure)
 
+
             # Mac Gyver first generation
             mac_gyver = Character(generate.structure, "MacGyver")
+            display.backpack()
 
         while display.game_start:
             # Loop game
@@ -90,12 +92,13 @@ def main():
             window.blit(display.background, (0, 0))
             display.map_picture(generate.structure)
             window.blit(mac_gyver.picture, (mac_gyver.pixel_x, mac_gyver.pixel_y))
+            display.backpack(mac_gyver.backpack_counter)
             pygame.display.flip()
 
             # Final boss with backpack checking
             if generate.structure[mac_gyver.sprite_y][mac_gyver.sprite_x] == 'e':
                 display.game_start = 0
-                if mac_gyver.backpack == 3:
+                if mac_gyver.backpack_counter == 3:
                     # rajouter loingueur liste pour code plus propre
                     display.status = "success"
                 else:

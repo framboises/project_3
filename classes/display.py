@@ -18,6 +18,7 @@ class Display:
 
     def __init__(self, window):
         self.wall = pygame.image.load(IMAGE_WALL).convert()
+        self.backpack_list = IMAGE_BACKPACK
         self.background = pygame.image.load(IMAGE_BG).convert()
         self.exit = pygame.image.load(IMAGE_EXIT).convert_alpha()
         self.window = window
@@ -61,6 +62,13 @@ class Display:
                 sprite_position += 1
             line_position += 1
 
+    def backpack(self, backpack_counter=0):
+        """ test """
+
+        backpack_pic = pygame.image.load(self.backpack_list[backpack_counter]).convert_alpha()
+        self.window.blit(backpack_pic, (200, 0))
+
+
     def game_status_screen(self, status):
         """ Display the correct screen based on the game status
         success if the player win, fail if he loose or try at
@@ -89,6 +97,7 @@ class Display:
             self.window.blit(macgyver, (87, 134))
             villain = pygame.image.load("images/guard.png").convert_alpha()
             self.window.blit(villain, (476, 524))
+
 
     def event_user_homepage(self):
         """ Loop for key action by user, quit the game, restart and select the level.
