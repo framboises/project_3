@@ -18,6 +18,7 @@ class Display:
 
     def __init__(self, window):
         self.wall = pygame.image.load(IMAGE_WALL).convert()
+        self.backpack_list = IMAGE_BACKPACK
         self.background = pygame.image.load(IMAGE_BG).convert()
         self.exit = pygame.image.load(IMAGE_EXIT).convert_alpha()
         self.window = window
@@ -28,6 +29,7 @@ class Display:
         self.homepage = True
         self.homeimage = pygame.image.load(IMAGE_HOME).convert()
         self.select_level = 0
+        self.player = 0
 
     def map_picture(self, structure):
         """ Display map on pygame module
@@ -61,6 +63,13 @@ class Display:
                 sprite_position += 1
             line_position += 1
 
+    def backpack(self, backpack_counter=0):
+        """ test """
+
+        backpack_pic = pygame.image.load(self.backpack_list[backpack_counter]).convert_alpha()
+        self.window.blit(backpack_pic, (200, 0))
+
+
     def game_status_screen(self, status):
         """ Display the correct screen based on the game status
         success if the player win, fail if he loose or try at
@@ -90,6 +99,7 @@ class Display:
             villain = pygame.image.load("images/guard.png").convert_alpha()
             self.window.blit(villain, (476, 524))
 
+
     def event_user_homepage(self):
         """ Loop for key action by user, quit the game, restart and select the level.
         For now we have only one level, but the system is ready for futur map. """
@@ -113,3 +123,29 @@ class Display:
                     self.status = "try"
                     self.select_level = "level_1"
 
+    def event_user_ingame(self, player):
+        """ Input user on keyboard for movement or leaving game """
+
+        self.player = player
+        for event in pygame.event.get():
+            # keyboard event management
+
+            # if quit we stop all
+            if event.type == QUIT:
+                self.game_start = 0
+                self.launchgame = 0
+
+            elif event.type == KEYDOWN:
+                # Escape press => comeback to menu
+                if event.key == K_ESCAPE:
+                    self.game_start = 0
+
+                # Move keyboard
+                elif event.key == K_RIGHT:
+                    self.player.movement('right')
+                elif event.key == K_LEFT:
+                    self.player.movement('left')
+                elif event.key == K_UP:
+                    self.player.movement('up')
+                elif event.key == K_DOWN:
+                    self.player.movement('down')
