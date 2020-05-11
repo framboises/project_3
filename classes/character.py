@@ -26,12 +26,11 @@ class Character:
         self.pixel_x = 0
         self.pixel_y = 0
 
-        # values for the exit
-        self.backpack = 0
+        # values for backpack
+        self.backpack_counter = 0
 
         # generating map instance
         self.level = level
-
 
     def movement(self, direction):
         """ Move character method """
@@ -43,7 +42,7 @@ class Character:
                 if self.level[self.sprite_y][self.sprite_x+1] != 'w':
                     if isinstance(self.level[self.sprite_y][self.sprite_x+1], list):
                         self.level[self.sprite_y][self.sprite_x+1] = '0'
-                        self.backpack += 1
+                        self.backpack_counter += 1
                     self.sprite_x += 1
                     self.pixel_x = self.sprite_x * SIZE_SPRITE
 
@@ -53,7 +52,7 @@ class Character:
                 if self.level[self.sprite_y][self.sprite_x-1] != 'w':
                     if isinstance(self.level[self.sprite_y][self.sprite_x-1], list):
                         self.level[self.sprite_y][self.sprite_x-1] = '0'
-                        self.backpack += 1
+                        self.backpack_counter += 1
                     self.sprite_x -= 1
                     self.pixel_x = self.sprite_x * SIZE_SPRITE
 
@@ -63,7 +62,7 @@ class Character:
                 if self.level[self.sprite_y-1][self.sprite_x] != 'w':
                     if isinstance(self.level[self.sprite_y-1][self.sprite_x], list):
                         self.level[self.sprite_y-1][self.sprite_x] = '0'
-                        self.backpack += 1
+                        self.backpack_counter += 1
                     self.sprite_y -= 1
                     self.pixel_y = self.sprite_y * SIZE_SPRITE
 
@@ -73,6 +72,6 @@ class Character:
                 if self.level[self.sprite_y+1][self.sprite_x] != 'w':
                     if isinstance(self.level[self.sprite_y+1][self.sprite_x], list):
                         self.level[self.sprite_y+1][self.sprite_x] = '0'
-                        self.backpack += 1
+                        self.backpack_counter += 1
                     self.sprite_y += 1
                     self.pixel_y = self.sprite_y * SIZE_SPRITE
