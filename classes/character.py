@@ -13,16 +13,20 @@ from classes.settings import *
 class Character:
     """Generating a character"""
 
-    def __init__(self, picture, level):
+    def __init__(self, level, *picture):
 
         # profile picture
-        self.picture = pygame.image.load(picture).convert_alpha()
+        # System can be upragde with another character
+        if picture[0] == "MacGyver":
+            self.picture = pygame.image.load(IMAGE_MACGYVER).convert_alpha()
 
         # sprite and pixel position of the character
         self.sprite_x = 0
         self.sprite_y = 0
         self.pixel_x = 0
         self.pixel_y = 0
+
+        # values for the exit
         self.backpack = 0
 
         # generating map instance
@@ -36,9 +40,9 @@ class Character:
         if direction == 'right':
             # border check
             if self.sprite_x < (NB_SPRITE_WIDTH - 1):
-                if self.level.structure[self.sprite_y][self.sprite_x+1] != 'w':
-                    if isinstance(self.level.structure[self.sprite_y][self.sprite_x+1], list):
-                        self.level.structure[self.sprite_y][self.sprite_x+1] = '0'
+                if self.level[self.sprite_y][self.sprite_x+1] != 'w':
+                    if isinstance(self.level[self.sprite_y][self.sprite_x+1], list):
+                        self.level[self.sprite_y][self.sprite_x+1] = '0'
                         self.backpack += 1
                     self.sprite_x += 1
                     self.pixel_x = self.sprite_x * SIZE_SPRITE
@@ -46,9 +50,9 @@ class Character:
         # left move
         if direction == 'left':
             if self.sprite_x > 0:
-                if self.level.structure[self.sprite_y][self.sprite_x-1] != 'w':
-                    if isinstance(self.level.structure[self.sprite_y][self.sprite_x-1], list):
-                        self.level.structure[self.sprite_y][self.sprite_x-1] = '0'
+                if self.level[self.sprite_y][self.sprite_x-1] != 'w':
+                    if isinstance(self.level[self.sprite_y][self.sprite_x-1], list):
+                        self.level[self.sprite_y][self.sprite_x-1] = '0'
                         self.backpack += 1
                     self.sprite_x -= 1
                     self.pixel_x = self.sprite_x * SIZE_SPRITE
@@ -56,9 +60,9 @@ class Character:
         # move up
         if direction == 'up':
             if self.sprite_y > 0:
-                if self.level.structure[self.sprite_y-1][self.sprite_x] != 'w':
-                    if isinstance(self.level.structure[self.sprite_y-1][self.sprite_x], list):
-                        self.level.structure[self.sprite_y-1][self.sprite_x] = '0'
+                if self.level[self.sprite_y-1][self.sprite_x] != 'w':
+                    if isinstance(self.level[self.sprite_y-1][self.sprite_x], list):
+                        self.level[self.sprite_y-1][self.sprite_x] = '0'
                         self.backpack += 1
                     self.sprite_y -= 1
                     self.pixel_y = self.sprite_y * SIZE_SPRITE
@@ -66,9 +70,9 @@ class Character:
         # move down
         if direction == 'down':
             if self.sprite_y < (NB_SPRITE_HEIGHT - 1):
-                if self.level.structure[self.sprite_y+1][self.sprite_x] != 'w':
-                    if isinstance(self.level.structure[self.sprite_y+1][self.sprite_x], list):
-                        self.level.structure[self.sprite_y+1][self.sprite_x] = '0'
+                if self.level[self.sprite_y+1][self.sprite_x] != 'w':
+                    if isinstance(self.level[self.sprite_y+1][self.sprite_x], list):
+                        self.level[self.sprite_y+1][self.sprite_x] = '0'
                         self.backpack += 1
                     self.sprite_y += 1
                     self.pixel_y = self.sprite_y * SIZE_SPRITE
