@@ -18,7 +18,7 @@ from pygame.locals import (
     K_DOWN
 )
 
-from .settings import (
+from macgyver.settings import (
     IMAGE_WALL,
     IMAGE_BACKPACK,
     IMAGE_BG,

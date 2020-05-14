@@ -5,7 +5,7 @@
 Class for Mac Gyver video game
 Class for character in the video game
 """
-from .settings import (
+from macgyver.settings import (
     NB_SPRITE_WIDTH,
     SIZE_SPRITE,
     NB_SPRITE_HEIGHT,

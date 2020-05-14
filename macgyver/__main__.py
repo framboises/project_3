@@ -13,10 +13,10 @@ Files : macgyver.py, classes.py, level_1, + images
 
 import pygame
 
-from .map import Map
-from .character import Character
-from .display import Display
-from .settings import (
+from macgyver.map import Map
+from macgyver.character import Character
+from macgyver.display import Display
+from macgyver.settings import (
     NB_SPRITE_WIDTH,
     SIZE_SPRITE,
     NB_SPRITE_HEIGHT,
@@ -58,14 +58,14 @@ def main():
         if display.select_level != 0:
 
             # Map generation & display
-            map = Map(display.select_level)
-            map.parse_file()
-            map.insert_tool()
-            display.map_picture(map.structure)
+            mapping = Map(display.select_level)
+            mapping.parse_file()
+            mapping.insert_tool()
+            display.map_picture(mapping.structure)
 
             # Mac Gyver first generation
             mac_gyver = Character(
-                map.structure,
+                mapping.structure,
                 "MacGyver",
                 pygame.image.load(IMAGE_MACGYVER).convert_alpha()
                 )
@@ -82,14 +82,14 @@ def main():
 
             # Display moves
             window.blit(display.background, (0, 0))
-            display.map_picture(map.structure)
+            display.map_picture(mapping.structure)
             window.blit(mac_gyver.picture, (mac_gyver.pixel_x,
                                             mac_gyver.pixel_y))
             display.backpack(mac_gyver.backpack_counter)
             pygame.display.flip()
 
             # Final boss with backpack checking
-            if map.structure[mac_gyver.sprite_y][mac_gyver.sprite_x]\
+            if mapping.structure[mac_gyver.sprite_y][mac_gyver.sprite_x]\
                == "e":
                 display.game_start = 0
                 if mac_gyver.backpack_counter == 3:

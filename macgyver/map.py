@@ -8,7 +8,7 @@ Class for generating the map and the movement
 
 import random
 
-from .settings import IMAGE_TOOL
+from macgyver.settings import IMAGE_TOOL
 
 
 class Map:
