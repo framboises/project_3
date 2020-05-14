@@ -7,11 +7,27 @@ Class for display - home menu
 """
 
 import pygame
-from pygame.locals import *
+from pygame.locals import (
+    QUIT,
+    KEYDOWN,
+    K_ESCAPE,
+    K_F1,
+    K_RIGHT,
+    K_LEFT,
+    K_UP,
+    K_DOWN
+)
 
-from classes.map import *
-from classes.character import *
-from classes.settings import *
+from .settings import (
+    IMAGE_WALL,
+    IMAGE_BACKPACK,
+    IMAGE_BG,
+    IMAGE_EXIT,
+    IMAGE_HOME,
+    SIZE_SPRITE,
+    IMAGE_TOOL,
+)
+
 
 class Display:
     """docstring for ClassName"""
@@ -36,7 +52,7 @@ class Display:
         Parse structure map and display the correct sprite"""
 
         self.map = structure
-        nb_tool_counter = 0
+        tool_counter = 0
         line_position = 0
         for ligne in self.map:
             # parse line in the structure map
@@ -46,17 +62,18 @@ class Display:
                 x_axis_sprite = sprite_position * SIZE_SPRITE
                 y_axis_sprite = line_position * SIZE_SPRITE
 
-                if sprite == 'w':
-                    # w = wall
+                if sprite == "w":
+                    # w = wall
                     self.window.blit(self.wall, (x_axis_sprite, y_axis_sprite))
 
-                elif sprite == 'e':
+                elif sprite == "e":
                     # e = exit
                     self.window.blit(self.exit, (x_axis_sprite, y_axis_sprite))
 
-                elif isinstance(sprite, list) and nb_tool_counter < len(IMAGE_TOOL):
+                elif isinstance(sprite, list)\
+                        and tool_counter < len(IMAGE_TOOL):
                     # t = tool
-                    nb_tool_counter += 1
+                    tool_counter += 1
                     tool = pygame.image.load(sprite[0]).convert_alpha()
                     self.window.blit(tool, (x_axis_sprite, y_axis_sprite))
                     # import pdb; pdb.set_trace()
@@ -66,9 +83,9 @@ class Display:
     def backpack(self, backpack_counter=0):
         """ test """
 
-        backpack_pic = pygame.image.load(self.backpack_list[backpack_counter]).convert_alpha()
+        item = self.backpack_list[backpack_counter]
+        backpack_pic = pygame.image.load(item).convert_alpha()
         self.window.blit(backpack_pic, (200, 0))
-
 
     def game_status_screen(self, status):
         """ Display the correct screen based on the game status
@@ -87,9 +104,13 @@ class Display:
             # display fail menu
             fail = pygame.image.load("images/fail.png").convert_alpha()
             self.window.blit(fail, (38, 200))
-            macgyver = pygame.image.load("images/MacGyver_dead.png").convert_alpha()
+            macgyver = pygame.image.load(
+                "images/MacGyver_dead.png"
+                ).convert_alpha()
             self.window.blit(macgyver, (87, 134))
-            villain = pygame.image.load("images/villain_happy.png").convert_alpha()
+            villain = pygame.image.load(
+                "images/villain_happy.png"
+                ).convert_alpha()
             self.window.blit(villain, (476, 578))
 
         elif self.status == "try":
@@ -99,15 +120,16 @@ class Display:
             villain = pygame.image.load("images/guard.png").convert_alpha()
             self.window.blit(villain, (476, 524))
 
-
     def event_user_homepage(self):
-        """ Loop for key action by user, quit the game, restart and select the level.
-        For now we have only one level, but the system is ready for futur map. """
+        """ Loop for key action by user, quit the game, restart and select the
+        level. For now we have only one level, but the system is ready for
+        futur map. """
 
         for event in pygame.event.get():
 
             # In case of exit by user
-            if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
+            if event.type == QUIT or event.type == KEYDOWN \
+                    and event.key == K_ESCAPE:
                 self.homepage = 0
                 self.game_start = 0
                 self.launchgame = 0
@@ -117,18 +139,18 @@ class Display:
             elif event.type == KEYDOWN:
                 # Select level 1 to launch the game and
                 # set var homepage to false in order to quit the loop
-                # We can implement more level easily
+                # We can implement more level easily
                 if event.key == K_F1:
                     self.homepage = 0
                     self.status = "try"
-                    self.select_level = "level_1"
+                    self.select_level = "level/level_1"
 
     def event_user_ingame(self, player):
         """ Input user on keyboard for movement or leaving game """
 
         self.player = player
         for event in pygame.event.get():
-            # keyboard event management
+            # keyboard event management
 
             # if quit we stop all
             if event.type == QUIT:
@@ -142,10 +164,10 @@ class Display:
 
                 # Move keyboard
                 elif event.key == K_RIGHT:
-                    self.player.movement('right')
+                    self.player.move("right")
                 elif event.key == K_LEFT:
-                    self.player.movement('left')
+                    self.player.move("left")
                 elif event.key == K_UP:
-                    self.player.movement('up')
+                    self.player.move("up")
                 elif event.key == K_DOWN:
-                    self.player.movement('down')
+                    self.player.move("down")

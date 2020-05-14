@@ -16,6 +16,25 @@ Imagine a 2D labyrinth in which MacGyver was trapped. The exit is owned by a bod
 8. If he does not have all the objects and he appears before the guard, he dies (life is cruel for the heroes).
 9. The program will be standalone, ie it can be run on any computer.
 
+### Installation
+
+* Before running the game, please install requirements.
+* Execute`pip install -r requirements.txt`
+* From the source folder  
+* Execute `python -m macgyver`
+
+---------------
+
+## Release v 1.2 - 14/05/2020
+
+**Technical modification, no new features :**
+* Create a python module standalone running
+* Application of the strict **PEP8** on the code with flake8
+* New files distribution tree 
+* Remove pygame use in the character classe
+* Using action verb for methods
+* Installation instruction in readme
+
 ---------------
 
 ## Release v 1.1 - 11/05/2020

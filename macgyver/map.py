@@ -8,7 +8,8 @@ Class for generating the map and the movement
 
 import random
 
-from classes.settings import *
+from .settings import IMAGE_TOOL
+
 
 class Map:
     """ Map generator """
@@ -20,7 +21,8 @@ class Map:
         self.tool = IMAGE_TOOL
 
     def parse_file(self):
-        """ Generating map from a file. It's a list wich contains other lists."""
+        """ Generating map from a file. It's a list wich contains
+            other lists."""
         with open(self.fichier, "r") as fichier:
             map_structure = []
 
@@ -28,7 +30,7 @@ class Map:
                 line_structure = []
 
                 for sprite in line:
-                    if sprite != '\n':
+                    if sprite != "\n":
                         line_structure.append(sprite)
 
                 map_structure.append(line_structure)
@@ -36,7 +38,8 @@ class Map:
             self.structure = map_structure
 
     def insert_tool(self):
-        """ Generate random position for tool and insertion in the map structure"""
+        """ map random position for tool and insertion in
+        the map structure"""
 
         item_counter = 0
         while item_counter != len(self.tool):
@@ -44,7 +47,7 @@ class Map:
             # in map structure, insert 1 or 2 more tools than expected
             # (len(self.tool) == 3) This loop check the number
             # of item in the map structure et the necessary
-            # number before exit
+            # number before exit
 
             if item_counter > len(self.tool):
                 self.parse_file()
@@ -54,10 +57,13 @@ class Map:
             while i != len(self.tool):
                 random_line = random.choice(self.structure)
                 random_line_position = self.structure.index(random_line)
-                random_sprite = random.randint(0, len(random_line)-1)
-                if random_line[random_sprite] == '0':
-                    random_line[random_sprite] = [self.tool[i],
-                                                  random_line_position, random_sprite]
+                random_sprite = random.randint(0, len(random_line) - 1)
+                if random_line[random_sprite] == "0":
+                    random_line[random_sprite] = [
+                        self.tool[i],
+                        random_line_position,
+                        random_sprite,
+                    ]
                     self.structure[random_line_position] = random_line
                     i += 1
 
