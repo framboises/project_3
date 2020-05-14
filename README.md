@@ -34,6 +34,7 @@ Imagine a 2D labyrinth in which MacGyver was trapped. The exit is owned by a bod
 * Remove pygame use in the character classe
 * Using action verb for methods
 * Installation instruction in readme
+* Pylint better rating
 
 ---------------
 
